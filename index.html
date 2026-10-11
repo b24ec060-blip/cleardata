@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClearData — Smart Data Cleaner</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-icon">✦</span> ClearData</a>
+    <span class="top-note"><span class="status-dot"></span> Private file processing</span>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow"><span>✦</span> SMART DATA CLEANING</div>
+      <h1>Messy data in.<br><span>Clean data out.</span></h1>
+      <p class="hero-copy">Upload your spreadsheet and let ClearData handle duplicates, missing values, inconsistent column names, and more — in seconds.</p>
+    </section>
+
+    <section class="workspace">
+      <div class="section-heading">
+        <div>
+          <h2>Clean your dataset</h2>
+          <p>Choose a file and select the cleaning steps you need.</p>
+        </div>
+        <span class="step-tag">01 <span>/ 02</span></span>
+      </div>
+
+      <form id="cleanForm">
+        <label class="drop-zone" id="dropZone" for="fileInput">
+          <input type="file" id="fileInput" name="file" accept=".csv,.xlsx,.xls" hidden>
+          <span class="upload-icon">↑</span>
+          <strong id="fileTitle">Drop your file here, or <span>browse</span></strong>
+          <small id="fileSub">Supports CSV, XLSX and XLS · Max 20 MB</small>
+        </label>
+
+        <div class="options-title"><h3>Cleaning options</h3><span>Customize your workflow</span></div>
+        <div class="options-grid">
+          <label class="option-card">
+            <span class="option-icon purple">⧉</span>
+            <span class="option-copy"><strong>Remove duplicates</strong><small>Keep only unique rows</small></span>
+            <input type="checkbox" name="remove_duplicates" value="true" checked>
+            <span class="switch"></span>
+          </label>
+          <label class="option-card">
+            <span class="option-icon blue">◫</span>
+            <span class="option-copy"><strong>Normalize columns</strong><small>Clean and standardize headers</small></span>
+            <input type="checkbox" name="normalize_columns" value="true" checked>
+            <span class="switch"></span>
+          </label>
+          <label class="option-card">
+            <span class="option-icon green">↔</span>
+            <span class="option-copy"><strong>Trim extra spaces</strong><small>Clean text values and blanks</small></span>
+            <input type="checkbox" name="trim_cells" value="true" checked>
+            <span class="switch"></span>
+          </label>
+          <label class="option-card">
+            <span class="option-icon orange">⇅</span>
+            <span class="option-copy"><strong>Restructure columns</strong><small>Put ID, name, date and email first</small></span>
+            <input type="checkbox" name="restructure" value="true">
+            <span class="switch"></span>
+          </label>
+        </div>
+
+        <div class="missing-box">
+          <div><strong>Missing value handling</strong><small>Choose how empty cells should be handled.</small></div>
+          <select name="missing_action" id="missingAction">
+            <option value="keep">Detect only — keep empty cells</option>
+            <option value="fill_text">Fill numbers with median, text with “Unknown”</option>
+            <option value="fill_median">Fill numeric cells with median</option>
+            <option value="drop_rows">Remove rows containing empty cells</option>
+          </select>
+        </div>
+
+        <div class="form-footer">
+          <span class="privacy-note">♧ Your file is processed by this app, not shared intentionally.</span>
+          <button type="submit" id="cleanButton"><span>✦</span> Clean my data <span class="button-arrow">→</span></button>
+        </div>
+      </form>
+      <div id="errorMessage" class="message error" role="alert" hidden></div>
+    </section>
+
+    <section id="results" class="results" hidden>
+      <div class="section-heading results-heading">
+        <div><div class="eyebrow">✦ CLEANING COMPLETE</div><h2>Your data, refreshed.</h2><p>Review the summary and preview before downloading.</p></div>
+        <span class="success-mark">✓</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><span>Original rows</span><strong id="originalRows">—</strong><small>Before cleaning</small></div>
+        <div class="stat-card"><span>Cleaned rows</span><strong id="cleanedRows">—</strong><small>After cleaning</small></div>
+        <div class="stat-card"><span>Duplicates found</span><strong id="duplicateCount">—</strong><small id="duplicatesRemoved">Removed: 0</small></div>
+        <div class="stat-card"><span>Missing cells</span><strong id="missingCount">—</strong><small id="missingAfter">Remaining: 0</small></div>
+      </div>
+      <div class="preview-card">
+        <div class="preview-heading"><div><h3>Cleaned data preview</h3><p>Showing up to the first 10 rows</p></div><span class="preview-badge">LIVE PREVIEW</span></div>
+        <div class="table-wrap"><table id="previewTable"></table></div>
+        <div class="download-row"><div><strong id="downloadName">cleaned_file.csv</strong><small>Your cleaned file is ready to save.</small></div><button id="downloadButton" type="button">↓ Download cleaned file</button></div>
+      </div>
+    </section>
+
+    <footer><span>ClearData</span> · A simple, privacy-conscious data cleaning MVP <span class="footer-right">Built with Python + Flask</span></footer>
+  </main>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
